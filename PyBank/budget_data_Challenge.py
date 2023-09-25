@@ -1,20 +1,45 @@
+#import the os module
 import os
+
+# Module for reading CSV files
 import csv
-csvpath= os.path.join('.', 'Resources', 'budget_data.csv')
 
-# Method 2: Improved Reading using CSV module
+csvpath = os.path.join('.', 'Resources', 'budget_data.csv')
 
-with open(csvpath) as csvfile:
+#Lists to store data
 
-    # CSV reader specifies delimiter and variable that holds contents
-    csvreader = csv.reader(csvfile, delimiter=',')
+Date = []
+PL = []
+MonthCount = 0
+PLSum = 0
+Change = 0
+total_change = []
+AvgRevenue= []
+increase = []
+decrease = []
 
-    print(csvreader)
 
-    # Read the header row first (skip this step if there is no header)
-    csv_header = next(csvreader)
-    print(f"CSV Header: {csv_header}")
 
-    # Read each row of data after the header
+# WITH OPEN
+with open(csvpath, newline='', encoding="utf8") as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=',') 
+    next(csvreader, None)
+
+
     for row in csvreader:
-        print(row)
+        Date.append(row[0])
+        PL.append(row[1])
+        
+#Total Month Count and Sum of 
+        MonthCount += 1
+        PLSum += int(row[1])
+        
+        
+AvgRevenue = PLSum / (MonthCount - 1)
+
+
+#Print with Dicitonaries
+print(f'Total Months: {MonthCount}')
+print(f'Total Revenue: ${PLSum}')
+print(f'Average: ${round(AvgRevenue,2)}')
+#print(avg)
